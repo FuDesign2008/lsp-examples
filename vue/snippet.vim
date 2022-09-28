@@ -43,7 +43,7 @@ function VueDetectVersion()
     let vue = get(dependencies, 'vue', '^2.0.0')
     " vue value may  '^3.x.y' or '3.x.y'
     if match(vue, '\^3\.') == 0 || match(vue, '3\.') == 0
-        l:version = 3
+        let l:version = 3
     endif
 
     return l:version
@@ -54,6 +54,6 @@ endfunction
 let g:ycm_language_server += [
   \   { 'name': 'vue',
   \     'filetypes': [ 'vue' ],
-  \     'cmdline': [ expand( g:ycm_lsp_dir . '/vue/node_modules/.bin/' . (VueDetectVersion() == 2 ? 'vls' : 'vue-language-server') ) ]
+  \     'cmdline': [ expand( g:ycm_lsp_dir . '/vue/node_modules/.bin/' . (VueDetectVersion() == 2 ? 'vls' : 'vue-language-server')) ]
   \   },
   \ ]
