@@ -34,6 +34,7 @@ Working:
 * Angular
 * Bash
 * Cmake
+* Crystal
 * D
 * Dart
 * Dockerfile
@@ -160,7 +161,8 @@ Note that the server executable on Windows is called `serve-d.exe`.
 # Godot
 
 Godot must be running and you must go to `Project -> Project Settings -> Global`
-and set `Language Server` to `On`.
+and set `Language Server` to `On`. At least since Godot 3.4, `Language Server`
+options are under `Editor Settings` and `On` by default.
 
 If Godot is closed or restarted, you might need to force YCM to reconnect (this
 isn't automatic). Use `:YcmCompleter RestartServer` to reconnect.
@@ -249,30 +251,31 @@ This will put the binaries in `bin/<your os>`.
 
 # PHP
 
-Uses [Serenata](https://serenata.github.io).
+Uses [phpactor](https://phpactor.readthedocs.io/en/master/index.html).
 
-Requires some configuration to work. Here's the minimal `.ycm_extra_conf.py`:
+# Crystal
 
-```python
-import os
-ROOT = os.path.dirname( os.path.abspath( __file__ ) )
+Uses [Crystalline](https://github.com/elbywan/crystalline) as an LSP server and
+[vim-crystal](https://github.com/vim-crystal/vim-crystal.git) to determine file
+type.
 
-def Settings( **kwargs ):
-  return {
-    'ls': {
-      'configuration': {
-        "uris": [
-          f"file://{ ROOT }"
-        ],
-        "indexDatabaseUri": f"file://{ ROOT }/.serenata/index.sqlite",
-        "phpVersion": 7.2,
-        "fileExtensions": [
-          "php"
-        ]
-      }
-    }
-  }
+Keep in mind, that Crystalline version **must** match crystal version (see
+details on crystalline page).
+
+The configuration is pretty straightforward. Add this to your .vimrc:
+```viml
+let g:ycm_language_server =
+  \ [
+  \   {
+  \     'name': 'crystal',
+  \     'cmdline': [ 'crystalline'],
+  \     'project_root_files' : [ 'shard.yml' ],
+  \     'filetypes': [ 'crystal' ]
+  \   }
+  \ ]
 ```
+Place crystalline in the path (i.e. /usr/local/bin) or use absolute path
+in the example above..
 
 # Known Issues
 

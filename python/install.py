@@ -45,16 +45,9 @@ def FindExecutableOrDie( executable, message ):
 
 
 def Main():
-  composer = FindExecutableOrDie(
-    'composer',
-    'composer is required to set up phpactor.' )
-  subprocess.check_call( [ composer,
-                           'create-project',
-                           'phpactor/phpactor',
-                           'phpactor',
-                           '--prefer-dist',
-                           '--no-dev' ] )
+  npm = FindExecutableOrDie( 'npm', 'npm is required to set up Tern.' )
+  subprocess.check_call( [ npm, 'install', '--production' ] )
+
 
 if __name__ == '__main__':
   Main()
-
