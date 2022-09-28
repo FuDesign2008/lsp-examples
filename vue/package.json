@@ -1,6 +1,7 @@
 {
   "description": "ycmd yaml-language-server runtime area",
   "dependencies": {
-    "vls": "*"
+    "vls": "*",
+    "@volar/vue-language-server": "*"
   }
 }
