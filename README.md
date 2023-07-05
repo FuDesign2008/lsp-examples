@@ -7,23 +7,28 @@ This repo comes with no warranty, and these engines are not officially supported
 by YCM, though they should work for the most part.
 
 <!--ts-->
- * [Overview](#overview)
- * [Languages Tested](#languages-tested)
- * [Quick start](#quick-start)
- * [Configuration](#configuration)
- * [Purescript](#purescript)
- * [Scala](#scala)
- * [Haskell](#haskell)
- * [Fortran](#fortran)
- * [Ruby](#ruby)
- * [D](#d)
- * [Godot](#godot)
- * [Kotlin](#kotlin)
- * [Julia](#julia)
- * [Lua](#lua)
- * [Known Issues](#known-issues)
+   * [Overview](#overview)
+   * [Languages Tested](#languages-tested)
+   * [Quick start](#quick-start)
+   * [Configuration](#configuration)
+   * [Purescript](#purescript)
+   * [Scala](#scala)
+   * [Haskell](#haskell)
+   * [Fortran](#fortran)
+   * [Python (e.g. pyright)](#python-eg-pyright)
+   * [Ruby](#ruby)
+   * [D](#d)
+   * [Godot](#godot)
+   * [Kotlin](#kotlin)
+   * [Julia](#julia)
+   * [Lua](#lua)
+   * [Zig](#zig)
+   * [CSS](#css)
+   * [PHP](#php)
+   * [Crystal](#crystal)
+   * [Known Issues](#known-issues)
 
-<!-- Added by: ben, at: Sun 20 Sep 2020 13:24:56 BST -->
+<!-- Added by: ben, at: Tue 21 Feb 2023 09:01:14 GMT -->
 
 <!--te-->
 
@@ -33,6 +38,7 @@ Working:
 
 * Angular
 * Bash
+* CSS
 * Cmake
 * Crystal
 * D
@@ -40,17 +46,20 @@ Working:
 * Dockerfile
 * Godot (gdscript)
 * Groovy
+* Jai
 * Kotlin
 * PHP
+* Python (pyright)
 * Ruby
 * Vim (vimscript)
 * Vue
+* Zig
 
 Broken or partially working:
 
 * JSON
-* YAML
 * Lua
+* YAML
 
 See also:
 
@@ -125,6 +134,46 @@ The server causes a spurious error:
 - `fortls` doesn't support `didChangeConfiguration`.
 
 This error can be ignored, as they don't interfere with normal work of ycmd/fortls.
+
+# Python (e.g. pyright)
+
+If configuring a language server for Python, this will completely disable the
+built-in Jedi completer in YCM.
+
+## Pyright
+
+Example extra conf (actually for ycmd itself):
+
+```python
+import sys.path as p
+
+DIR_OF_THIS_SCRIPT = p.abspath( p.dirname( __file__ ) )
+DIR_OF_THIRD_PARTY = p.join( DIR_OF_THIS_SCRIPT, 'third_party' )
+DIR_OF_WATCHDOG_DEPS = p.join( DIR_OF_THIRD_PARTY, 'watchdog_deps' )
+
+def Settings( **kwargs ):
+  if language == 'python':
+    return {
+      'ls': {
+        'python': {
+          'analysis': {
+            'extraPaths': [
+              p.join( DIR_OF_THIS_SCRIPT ),
+              p.join( DIR_OF_THIRD_PARTY, 'bottle' ),
+              p.join( DIR_OF_THIRD_PARTY, 'regex-build' ),
+              p.join( DIR_OF_THIRD_PARTY, 'frozendict' ),
+              p.join( DIR_OF_THIRD_PARTY, 'jedi_deps', 'jedi' ),
+              p.join( DIR_OF_THIRD_PARTY, 'jedi_deps', 'parso' ),
+              p.join( DIR_OF_WATCHDOG_DEPS, 'watchdog', 'build', 'lib3' ),
+              p.join( DIR_OF_WATCHDOG_DEPS, 'pathtools' ),
+              p.join( DIR_OF_THIRD_PARTY, 'waitress' )
+            ],
+            'useLibraryCodeForTypes': True
+          }
+        }
+      }
+    }
+```
 
 # Ruby
 
@@ -249,6 +298,18 @@ cd ../../
 
 This will put the binaries in `bin/<your os>`.
 
+# Zig
+
+Uses [zls](https://github.com/zigtools/zls)
+
+For this to work sometimes, one needs to run the zls executable to create a user/global config json file
+by running the executable in /zig/zls/zig-out/bin/zls after running the install.py.
+[NOTE] if your workspace directory has a zls.json file, it should would also work.
+
+# CSS
+
+Uses [css](https://github.com/hrsh7th/vscode-langservers-extracted)
+
 # PHP
 
 Uses [phpactor](https://phpactor.readthedocs.io/en/master/index.html).
@@ -276,6 +337,28 @@ let g:ycm_language_server =
 ```
 Place crystalline in the path (i.e. /usr/local/bin) or use absolute path
 in the example above..
+
+# Jai
+
+This is using [Jails](https://github.comSogoCZE/Jails), which is very much
+"work in progress", so many things aren't fully working yet, but it's easy
+enough to set up.
+
+You may need to create a `jails.json` in your project root to tell Jails where
+to find modules.
+
+Example `jails.json`:
+
+```json
+{
+    "workspaces": [
+        {
+            "entry": "/foo/main.jai",
+            "local_modules": "/modules"
+        }
+    ]
+}
+```
 
 # Known Issues
 
